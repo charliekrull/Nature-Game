@@ -6,8 +6,8 @@ State where the entity is on the move.
 
 EntityMoveState = Class{__includes = BaseState}
 
-function EntityMoveState:init(entity)
-  self.entity = entity
+function EntityMoveState:init(def)
+  self.entity = def.entity
 end
 
 function EntityMoveState:enter()
@@ -31,7 +31,7 @@ end
 
 function EntityMoveState:processControl()
   
-  if self.entityType == 'player' then -- entity is controlled by the player
+  if self.entity.entityType == 'player' then -- entity is controlled by the player
     
     --if the player presses a directional button like left or w, the dx and/or dy will be changed as appropriate
     
@@ -65,8 +65,14 @@ function EntityMoveState:processControl()
     
     end
     
-    self.entity.dx = self.entity.dx + self.speed * x
-    self.entity.dy = self.entity.dy + self.speed * y
+    
+    
+    
+    local anim = 'walk-'..self.entity.direction
+    self.entity:changeAnimation(anim)
+    
+    self.entity.dx = self.entity.dx + self.entity.speed * x
+    self.entity.dy = self.entity.dy + self.entity.speed * y
     
     --avoid moving faster on diagonals
     if self.entity.dx ~= 0 and self.entity.dy ~= 0 then
@@ -76,6 +82,11 @@ function EntityMoveState:processControl()
       
     end
     
+    
+    if not love.keyboard.isDown('a') and not love.keyboard.isDown('left') and not love.keyboard.isDown('d') and not love.keyboard.isDown('right')
+     and not love.keyboard.isDown('w') and not love.keyboard.isDown('up') and not love.keyboard.isDown('s') and not love.keyboard.isDown('down') then
+      self.entity:changeState('idle')
+    end
     
     
 

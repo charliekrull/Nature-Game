@@ -6,13 +6,14 @@ Entity state when not moving or doing something
 
 EntityIdleState = Class{__includes = BaseState}
 
-function EntityIdleState:init(entity)
-  self.entity = entity
-  print(self.entity.entityType)
+function EntityIdleState:init(def)
+  self.entity = def.entity
+ 
+  
   
 end
 
-function EntityIdleState:enter(params)
+function EntityIdleState:enter()
   self.entity:changeAnimation('idle-'..self.entity.direction)
 end
 
@@ -20,7 +21,7 @@ end
 function EntityIdleState:update(dt)
   
   self:processControl()
-  self.entity.currentAnimation:update(dt)
+  
   
   
 end
@@ -34,6 +35,7 @@ end
 function EntityIdleState:processControl()
   
   if self.entity.entityType == 'player' then
+    
     if love.keyboard.isDown('a') or love.keyboard.isDown('left')
       or love.keyboard.isDown('d') or love.keyboard.isDown('right') 
       or love.keyboard.isDown('w') or love.keyboard.isDown('up') 

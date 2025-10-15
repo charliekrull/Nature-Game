@@ -55,6 +55,7 @@ function PlayState:setUpMap(def)
   local layer = self.map:addCustomLayer('Entities', 3)
    
   self.player = def.player or Entity{x = VIRTUAL_WIDTH/2, y = VIRTUAL_HEIGHT/2, entityType = 'player'}
+  
     
   layer.entities =  { self.player, Entity{x = VIRTUAL_WIDTH/4, y = VIRTUAL_HEIGHT/4,  entityType = 'chest'}}
   
@@ -62,10 +63,13 @@ function PlayState:setUpMap(def)
     ent.map = self.map
   end
   
-  layer['update'] = function(self, dt) 
+  layer['update'] = function(self, dt)
+    
+                
                 for _, ent in pairs(self.entities) do
                   
                   ent:update(dt)
+                  
                   
                   if ent.collidable then
                     
@@ -74,7 +78,7 @@ function PlayState:setUpMap(def)
                       if ent ~= ent2 and ent2.collidable and ent:collides(ent2) then
                         ent.x = ent.x - ent.dx * dt
                         ent.y = ent.y - ent.dy * dt
-                      
+                        print('collision!')
                       end
                     
                     end

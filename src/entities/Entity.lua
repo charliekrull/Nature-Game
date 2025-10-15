@@ -32,14 +32,19 @@ function Entity:init(def)
   
   
   if self.animated then
-    self.stateMachine = StateMachine{idle = function() return EntityIdleState(self) end,
-                                      move = function() return EntityMoveState(self) end}
+    self.stateMachine = StateMachine{idle = function() return EntityIdleState({entity = self}) end,
+                                      move = function() return EntityMoveState({entity = self}) end}
+                                    
+                                    
+    self.stateMachine:change('idle')
   
   end
   
 end
 
 function Entity:update(dt)
+  
+  self.dx, self.dy = 0, 0
   
   if self.stateMachine then 
     
@@ -52,7 +57,14 @@ function Entity:update(dt)
   self.x = self.x + self.dx * dt
   
   self.y = self.y + self.dy * dt
-
+  
+  
+  
+  if self.animated then 
+    
+    self.currentAnimation:update(dt) 
+    
+  end
   
   
 end
