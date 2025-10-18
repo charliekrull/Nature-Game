@@ -23,4 +23,7 @@ end
 function StartState:render()
   love.graphics.clear(COLORS.yellow)
   
+  love.graphics.setColor(COLORS.blue)
+  love.graphics.setFont(gFonts.large)
+  love.graphics.printf('Let\'s get ready to survive!', 0, VIRTUAL_HEIGHT/2 - love.graphics.getFont():getHeight() / 2, VIRTUAL_WIDTH, 'center')
 end

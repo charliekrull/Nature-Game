@@ -1,4 +1,4 @@
---[[ A game about surviving and maintaining a base in a wintery sort of setting
+--[[ A game about surviving and maintaining a base in a fantasy sort of setting
 
 ]]
 
@@ -21,7 +21,7 @@ function love.load()
   love.keyboard.keysPressed = {}
   love.mouse.clicks = {}
   
-  love.graphics.setDefaultFilter('nearest', 'nearest')
+  love.graphics.setDefaultFilter('linear', 'linear')
   
   gTextures = {['terrain'] = love.graphics.newImage('graphics/terrain.png'),
                   ['chests'] = love.graphics.newImage('graphics/chests.png'),
@@ -35,7 +35,9 @@ function love.load()
     gFrames[key] = GenerateQuads(img, TILE_SIZE, TILE_SIZE)  
   end
   
-  
+  gFonts = {small = love.graphics.newFont('fonts/PlayFairDisplay-Regular.ttf', 12),
+    medium = love.graphics.newFont('fonts/PlayFairDisplay-Regular.ttf', 24),
+    large = love.graphics.newFont('fonts/PlayfairDisplay-Regular.ttf', 36)}
   
   gStateMachine = StateMachine{['start'] = function() return StartState() end,
                                 ['play'] = function() return PlayState{} end}

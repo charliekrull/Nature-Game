@@ -44,15 +44,18 @@ function PlayState:render()
     love.graphics.clear(self.color)
   end
   
- 
+  love.graphics.setFont(gFonts.small)
+  love.graphics.setColor(COLORS.cyan)
+  love.graphics.printf('This is a test of some stuff. Nothing important, just seeing how the font looks alongside my pixelated graphics.',
+    0, math.floor(VIRTUAL_HEIGHT * 0.75), VIRTUAL_WIDTH, 'center')
   
   
 end
 
 function PlayState:setUpMap(def)
-  self.map = sti('graphics/Tilemaps/Testing.lua')
+  self.map = sti('graphics/Tilemaps/Little Island in a Big Sea.lua')
   
-  local layer = self.map:addCustomLayer('Entities', 3)
+  local layer = self.map:addCustomLayer('Entities', 4)
    
   self.player = def.player or Entity{x = VIRTUAL_WIDTH/2, y = VIRTUAL_HEIGHT/2, entityType = 'player'}
   
@@ -78,14 +81,14 @@ function PlayState:setUpMap(def)
                       if ent ~= ent2 and ent2.collidable and ent:collides(ent2) then
                         ent.x = ent.x - ent.dx * dt
                         ent.y = ent.y - ent.dy * dt
-                        print('collision!')
+                        
                       end
                     
                     end
                   end
                   
-                  ent.x = clamp(ent.x, 0, ent.map.layers['Tile Layer 1'].width * TILE_SIZE - ent.width)
-                  ent.y = clamp(ent.y, 0, ent.map.layers['Tile Layer 1'].height * TILE_SIZE - ent.height)
+                  ent.x = clamp(ent.x, 0, ent.map.layers['Water'].width * TILE_SIZE - ent.width)
+                  ent.y = clamp(ent.y, 0, ent.map.layers['Water'].height * TILE_SIZE - ent.height)
                   
                 end
               end
