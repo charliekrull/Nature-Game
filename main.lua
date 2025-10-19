@@ -40,7 +40,8 @@ function love.load()
     large = love.graphics.newFont('fonts/PlayfairDisplay-Regular.ttf', 36)}
   
   gStateMachine = StateMachine{['start'] = function() return StartState() end,
-                                ['play'] = function() return PlayState{} end}
+                                ['play'] = function() return PlayState{} end,
+                                ['generate-map'] = function() return GenerateMapState{} end}
   gStateMachine:change('start')
   
 end

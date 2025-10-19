@@ -39,6 +39,7 @@ end
 function PlayState:render()
   --love.graphics.translate(-math.floor(self.camX), -math.floor(self.camY))
   if self.map then
+    love.graphics.setColor(COLORS.white)
     self.map:draw(-math.floor(self.camX), -math.floor(self.camY))
   else
     love.graphics.clear(self.color)

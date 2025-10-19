@@ -18,6 +18,7 @@ require 'src/entities/entity_defs'
 require 'src/states/StateMachine'
 require 'src/states/BaseState'
 
+require 'src/states/game/GenerateMapState'
 require 'src/states/game/StartState'
 require 'src/states/game/PlayState'
 
