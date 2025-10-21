@@ -22,6 +22,7 @@ function GenerateMapState:init(def)
   
   
   
+  
 end
 
 function GenerateMapState:enter()
@@ -53,7 +54,7 @@ end
 function GenerateMapState:takeSnapshots(tilemap, shotWidth, shotHeight)
   
   local snapshots = {} -- where all the snapshots we take will get put
-  local returnedSnapshots = {} -- a list of each unique snapshot and its frequency in the input map
+  local returnedSnapshots = {} -- a list of each unique snapshot and its frequency in the input map and its allowable neighbors
   
   for y = 1, tilemap.height do
     snapshots[y] = {}
@@ -83,7 +84,74 @@ function GenerateMapState:takeSnapshots(tilemap, shotWidth, shotHeight)
     
   end
   
-  return snapshots
+  --now that all the snapshots are recorded, fill out the neighbors, put every unique snapshot into returnedSnapshots
+  --if a snapshot matches one already in the table, increase its frequency and update the neighbors
+  
+  
+  for y = 1, tilemap.height do
+    
+    for x = 1, tilemap.width do
+      
+      local currentShot = snapshots[y][x]
+      
+      for dir, tiles in pairs(currentShot.neighbors) do
+        
+        if dir == 'north' then
+        
+          table.insert(tiles, snapshots[((y - 1 - 1) % tilemap.height) + 1][x])
+          
+        elseif dir == 'east' then
+          
+          table.insert(tiles, snapshots[y][((x + 1 - 1) % tilemap.width) + 1])
+          
+        elseif dir == 'south' then
+          
+          table.insert(tiles, snapshots[((y + 1 - 1) % tilemap.height) + 1][x])
+          
+          
+        elseif dir == 'west' then
+          
+          table.insert(tiles, snapshots[y][((x - 1 - 1) % tilemap.width) + 1])
+          
+        else
+          
+          print("couldn't tell what direction")
+          
+        end
+        
+        
+      end
+      
+      
+      if #returnedSnapshots == 0 then
+        table.insert(returnedSnapshots, currentShot)
+        
+      else
+        
+        local matchFound = false
+        
+        for _, shot in pairs(returnedSnapshots) do
+          
+          if tablesMatch(currentShot.contents, shot.contents) then
+            shot.frequency = shot.frequency + 1
+            matchFound = true
+            
+            
+          end
+          
+        end
+        if not matchFound then
+          table.insert(returnedSnapshots, currentShot)  
+        end
+        
+      end
+      
+    end
+    
+  end
+  
+  
+  return returnedSnapshots
   
   
   

@@ -42,6 +42,18 @@ function table.contains(tbl, element)
     return false
 end
 
+function table.containsKey(tbl, key)
+  for k, v in pairs(tbl) do
+    if k == key then
+      return true
+      
+    end
+    
+  end
+  
+  return false
+end
+
 --gets individual images from a spritesheet/tilesheet
 function GenerateQuads(atlas, tilewidth, tileheight)
     local sheetWidth = atlas:getWidth() / tilewidth
@@ -108,4 +120,64 @@ end
 
 function clamp(value, min, max)
   return math.max(min, math.min(max, value))
+end
+
+function tablesMatch(a, b) --[[returns true if all the same keys leading to all the same values are found in both tables with none left over, ie the tables match EXACTLY. If a value is a table then recurse]]
+  
+  
+  for ka, va in pairs(a) do
+    if type(va) == 'table' then
+      
+      if type(b[ka]) == 'table' then
+        
+        if not tablesMatch(va, b[ka]) then
+          return false
+          
+        end
+         
+      else
+        
+        return false
+      
+      
+      end
+      
+    elseif  va ~= b[ka] then
+      
+      return false
+      
+    end
+  
+  end
+  
+  for kb, vb in pairs(b) do --if we got here, every key and value of a is the same as in b, but we have to check if b has anything a doesn't have at all
+    if not table.containsKey(a, kb) then
+      
+      return false
+      
+    end
+    
+  end
+  
+  return true
+  
+end
+
+function mergeTables(a, b, keepDuplicates) --merge two tables, overwriting duplicates
+  
+  local temp = {}
+  if keepDuplicates then
+    
+    
+    
+    
+    
+    
+    
+  end
+  
+  
+  
+  
+  
 end
