@@ -22,3 +22,8 @@ COLORS = {white = {1, 1, 1},
           purple = {165/255, 0, 1}
           }
         
+        
+DIRECTIONS = {'north', 'east', 'south', 'west'}
+
+
+

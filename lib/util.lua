@@ -150,7 +150,7 @@ function tablesMatch(a, b) --[[returns true if all the same keys leading to all 
   
   end
   
-  for kb, vb in pairs(b) do --if we got here, every key and value of a is the same as in b, but we have to check if b has anything a doesn't have at all
+  for kb, vb in pairs(b) do --if we got here, every key and value of 'a' is the same as in 'b', but we have to check if 'b' has anything that 'a' doesn't have at all
     if not table.containsKey(a, kb) then
       
       return false
@@ -163,10 +163,12 @@ function tablesMatch(a, b) --[[returns true if all the same keys leading to all 
   
 end
 
-function mergeTables(a, b, keepDuplicates) --merge two tables, overwriting duplicates
+
+
+--function mergeTables(a, b, keepDuplicates) --merge two tables, overwriting duplicates
   
-  local temp = {}
-  if keepDuplicates then
+--  local temp = {}
+--  if keepDuplicates then
     
     
     
@@ -174,10 +176,10 @@ function mergeTables(a, b, keepDuplicates) --merge two tables, overwriting dupli
     
     
     
-  end
+--  end
   
   
   
   
   
-end
+--end
