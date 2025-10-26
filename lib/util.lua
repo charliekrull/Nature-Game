@@ -164,6 +164,18 @@ function tablesMatch(a, b) --[[returns true if all the same keys leading to all 
 end
 
 
+function shuffle(t) --randomizes the order of a table
+    local n = #t
+    while n > 1 do
+        local k = math.random(n) -- Generate a random index from 1 to n
+        -- Swap elements t[n] and t[k]
+        t[n], t[k] = t[k], t[n]
+        n = n - 1
+    end
+    return t
+end
+
+
 
 --function mergeTables(a, b, keepDuplicates) --merge two tables, overwriting duplicates
   
