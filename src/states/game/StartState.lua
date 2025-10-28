@@ -18,7 +18,7 @@ function StartState:update(dt)
     gStateMachine:change('play')
   
   elseif love.mouse.clicks[1] then
-  
+    
     gStateMachine:change('generate-map')
   
   end

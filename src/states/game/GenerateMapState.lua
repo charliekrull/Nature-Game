@@ -37,8 +37,8 @@ function GenerateMapState:enter()
   self:setUpMap()
   self.setupTime = love.timer.getTime() - self.startSetup
   
---  print('Shot Time:', tostring(self.shotTime))
---  print('Map Setup Time:', tostring(self.setupTime))
+  print('Shot Time:', tostring(self.shotTime))
+  print('Map Setup Time:', tostring(self.setupTime))
 end
 
 function GenerateMapState:update(dt)
@@ -46,7 +46,7 @@ function GenerateMapState:update(dt)
 end
 
 function GenerateMapState:render()
-  love.graphics.setColor(COLORS.white)
+  love.graphics.clear(COLORS.white)
   
 end
 
@@ -63,9 +63,49 @@ function GenerateMapState:collapseCell(x, y)
 
 end
 
+function GenerateMapState:getEntropy(x, y)
+  local entropy = 0
+  
+  for _, opt in pairs(self.wave.cells[y][x].options) do
+    
+    entropy = entropy + (self.shots[opt].frequency * math.log(self.shots[opt].frequency))
+    
+  end
+  
+  entropy = -entropy
+  
+  return entropy
+end
+
 
 function GenerateMapState:getMinEntropyCells() -- the cells with the fewest potential options, accouting for the weights/frequencies of each option
+  
+  local currentMin = 99999
+  local minEntropyCells = {}
+  
+  for y, row in pairs(self.wave.cells) do
     
+    for x, cell in pairs(row) do
+      
+      if not cell.collapsed then
+        if cell.entropy < currentMin then
+          minEntropyCells = {}
+          currentMin = cell.entropy
+          table.insert(minEntropyCells, {x = x, y = y})
+          
+        elseif cell.entropy == currentMin then
+          
+          table.insert(minEntropyCells, {x = x, y = y})
+        end
+        
+      end
+      
+      
+    end
+    
+  end
+  
+  return minEntropyCells
 end
 
 function GenerateMapState:calculateSupport(x, y, option, direction) 
@@ -143,6 +183,7 @@ function GenerateMapState:setUpMap()
         table.insert(self.wave.cells[y][x]['options'], i)
       end
       
+      self.wave.cells[y][x].entropy = self:getEntropy(x, y)
       
     end
     
@@ -190,10 +231,12 @@ function GenerateMapState:setUpMap()
       end
       
       table.remove(self.wave.cells[y][x].options, index)
+      self.wave.cells[y][x].entropy = self:getEntropy(x, y)
     end
     
   end
   
+  self.minEntropyCells = self:getMinEntropyCells()
   
 end
 
